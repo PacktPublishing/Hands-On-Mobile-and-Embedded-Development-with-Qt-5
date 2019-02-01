@@ -1,6 +1,6 @@
-import QtQuick 2.11
-import QtQuick.Window 2.11
-import QtQuick.Particles 2.11
+import QtQuick 2.12
+import QtQuick.Window 2.12
+import QtQuick.Particles 2.12
 
 Window {
     visible: true
@@ -8,12 +8,12 @@ Window {
     height: 480
     title: qsTr("Mobile and Embedded")
 
-    MouseArea {
-        id: mousey
-        anchors.fill: parent
-        onClicked: {particles.burst(25) }
-        hoverEnabled: true
-    }
+//    MouseArea {
+//        id: mousey
+//        anchors.fill: parent
+//        onClicked: {particles.burst(25) }
+//        hoverEnabled: true
+//    }
 
     Rectangle {
         anchors.fill: parent
@@ -60,16 +60,17 @@ Window {
     Emitter {
         id: particles
         system: particelSystem
-      //  anchors { horizontalCenter: parent.horizontalCenter; }
-        y: mousey.mouseY
-        x: mousey.mouseX
+        anchors { horizontalCenter: parent.horizontalCenter; }
+        y: parent.height / 2 //mousey.mouseY
+//        y: mousey.mouseY
+//        x: mousey.mouseX
         width: 10
         height: 10
         lifeSpan: 5000
         velocityFromMovement: 60
         sizeVariation: 15
         emitRate: 50
-        enabled: false
+        enabled: true
 
         velocity: AngleDirection {
             angle: 90
