@@ -1,33 +1,23 @@
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick 2.12
+import QtQuick.Controls 2.3
+import QtQuick.Dialogs 1.1
 
 ApplicationWindow {
     visible: true
-    width: 640
-    height: 480
-    title: qsTr("Tabs")
-
-    SwipeView {
-        id: swipeView
-        anchors.fill: parent
-        currentIndex: tabBar.currentIndex
-
-        Page1Form {
-        }
-
-        Page2Form {
+    title: "Mobile and Embedded"
+    menuBar: MenuBar {
+        Menu { title: "File"
+            MenuItem { text: "Open "
+            onTriggered: helloDialog.open()
+            }
         }
     }
-
-    footer: TabBar {
-        id: tabBar
-        currentIndex: swipeView.currentIndex
-
-        TabButton {
-            text: qsTr("Page 1")
-        }
-        TabButton {
-            text: qsTr("Page 2")
-        }
+    header: TextField {
+     placeholderText: "Remember the Qt 4 Dance video?"
+    }
+    MessageDialog {
+        id: helloDialog
+        title: "Hello Mobile!"
+        text: "Qt for Embedded devices to rule the world!"
     }
 }

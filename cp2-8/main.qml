@@ -1,53 +1,38 @@
-import QtQuick 2.11
-import QtQuick.Window 2.11
-import QtDataVisualization 1.2
+import QtQuick 2.12
+import QtQuick.Window 2.12
 
 Window {
     visible: true
     width: 640
     height: 480
-    title: qsTr("Australian Rain")
-    Bars3D {
-        width: parent.width
-        height: parent.height
-        theme: Theme3D {
-            type: Theme3D.ThemeQt
-            labelBorderEnabled: true
-            font.pointSize: 75
-            labelBackgroundEnabled: true
-        }
-        Bar3DSeries {
-            itemLabelFormat: "@colLabel, @rowLabel: @valueLabel"
+    color: "black"
+    title: qsTr("Red Bouncy Box")
 
-            ItemModelBarDataProxy {
-                itemModel: dataModel
-                rowRole: "year"
-                columnRole: "city"
-                valueRole: "total"
-            }
+    Rectangle {
+        id: redBox
+        width: 50; height: 50
+        color: "black"
+        border.width: 4
+        border.color: "red"
+
+        Behavior on x { SpringAnimation { spring: 10; damping: 10; } }
+        Behavior on y { SpringAnimation { spring: 10; damping: .1;  mass: 10 } }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        onClicked: animation.start()
+
+        onPositionChanged: {
+            redBox.x = mouse.x - redBox.width/2
+            redBox.y = mouse.y - redBox.height/2
         }
     }
 
-    ListModel {
-        id: dataModel
-        ListElement{ year: "2017"; city: "Adelaide"; total: "536"; }
-        ListElement{ year: "2016"; city: "Adelaide"; total: "821"; }
-        ListElement{ year: "2015"; city: "Adelaide"; total: "395"; }
-        ListElement{ year: "2017"; city: "Brisbane"; total: "1076"; }
-        ListElement{ year: "2016"; city: "Brisbane"; total: "759"; }
-        ListElement{ year: "2015"; city: "Brisbane"; total: "1263"; }
-        ListElement{ year: "2017"; city: "Darwin"; total: "2201"; }
-        ListElement{ year: "2016"; city: "Darwin"; total: "1363"; }
-        ListElement{ year: "2015"; city: "Darwin"; total: "1744"; }
-        ListElement{ year: "2017"; city: "Melbourne"; total: "526"; }
-        ListElement{ year: "2016"; city: "Melbourne"; total: "601"; }
-        ListElement{ year: "2015"; city: "Melbourne"; total: "401"; }
-        ListElement{ year: "2017"; city: "Perth"; total: "729"; }
-        ListElement{ year: "2016"; city: "Perth"; total: "674"; }
-        ListElement{ year: "2015"; city: "Perth"; total: "578"; }
-        ListElement{ year: "2017"; city: "Sydney"; total: "1076"; }
-        ListElement{ year: "2016"; city: "Sydney"; total: "1386"; }
-        ListElement{ year: "2015"; city: "Sydney"; total: "1338"; }
+    ParallelAnimation {
+        id: animation
+        NumberAnimation { target: redBox; property: "x"; to: 35; duration: 1500 }
+        NumberAnimation { target: redBox; property: "y"; to: 65; duration: 1500 }
     }
-
 }
