@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-11-18T06:10:31
+# Project created by QtCreator 2019-04-08T10:30:05
 #
 #-------------------------------------------------
 
@@ -26,12 +26,10 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \
-    mysslserver.cpp
+        mainwindow.cpp
 
 HEADERS += \
-        mainwindow.h \
-    mysslserver.h
+        mainwindow.h
 
 FORMS += \
         mainwindow.ui
