@@ -1,26 +1,25 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
+#include <QDir>
+#include <QFileDialog>
+#include <QFile>
+
 #include <QNetworkAccessManager>
-#include <QNetworkConfiguration>
-#include <QNetworkConfigurationManager>
-#include <QNetworkSession>
-#include <QNetworkRequest>
+#include <QUrl>
 #include <QNetworkReply>
-#include <QObject>
+
+
+
+#define USER "guest@llornkcor.com"
+#define PASS "handsonmobileandembedded"
+#define URL "ftp://llornkcor.com"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    accessMan = new QNetworkAccessManager(this);
-    QObject::connect(accessMan, &QNetworkAccessManager::finished,
-                     this, &MainWindow::finished);
-qWarning() << "network accessible" << accessMan->networkAccessible();
-    configMan = new QNetworkConfigurationManager(this);
-    connect(configMan, &QNetworkConfigurationManager::updateCompleted,
-            this, &MainWindow::updateCompleted);
-qWarning() << "isOnline?" << configMan->isOnline();
 }
 
 MainWindow::~MainWindow()
@@ -28,96 +27,138 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::stateChanged(QNetworkSession::State state)
+void MainWindow::on_pushButton_clicked()
 {
-    qDebug() << Q_FUNC_INFO << stateToString(state);
+    //QtFtp
+    ftp = new QFtp(this);
+    connect(ftp, SIGNAL(commandFinished(int,bool)),
+            this, SLOT(qftpCommandFinished(int,bool)));
+
+    connect(ftp, SIGNAL(stateChanged(int)),
+            this, SLOT(stateChanged(int)));
+
+    connect(ftp, SIGNAL(dataTransferProgress(qint64,qint64)),
+            this, SLOT(qftpDataTransferProgress(qint64,qint64)));
+
+    QUrl url(URL);
+    ftp->connectToHost(url.host(), 21);
+    ftp->login(USER, PASS);
 }
 
-QString MainWindow::stateToString(QNetworkSession::State state)
+void MainWindow::on_pushButton_2_clicked()
 {
-    switch (state) {
-    case QNetworkSession::NotAvailable:
-        return QStringLiteral("NotAvailable");
-        break;
-    case QNetworkSession::Connected:
-        return QStringLiteral("Connected");
-        break;
-    case QNetworkSession::Connecting:
-        return QStringLiteral("Connecting");
-        break;
-    case QNetworkSession::Closing:
-        return QStringLiteral("Closing");
-        break;
-    case QNetworkSession::Disconnected:
-        return QStringLiteral("Disconnected");
-        break;
-    case QNetworkSession::Roaming:
-        return QStringLiteral("NotAvailable");
-        break;
-    default:
-        break;
-    };
-    return "Invalid";
-}
+    // QNAM
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    connect(manager, &QNetworkAccessManager::finished,
+            this, &MainWindow::replyFinished);
 
-void MainWindow::printCaps(QNetworkConfigurationManager::Capabilities caps)
-{
-    if (caps.testFlag(QNetworkConfigurationManager::CanStartAndStopInterfaces))
-            qWarning() << "CanStartAndStopInterfaces";
-    if (caps.testFlag(QNetworkConfigurationManager::DirectConnectionRouting))
-            qWarning() << "DirectConnectionRouting";
-    if (caps.testFlag(QNetworkConfigurationManager::SystemSessionSupport))
-            qWarning() << "SystemSessionSupport";
-    if (caps.testFlag(QNetworkConfigurationManager::ApplicationLevelRoaming))
-            qWarning() << "ApplicationLevelRoaming";
-    if (caps.testFlag(QNetworkConfigurationManager::ForcedRoaming))
-            qWarning() << "ForcedRoaming";
-    if (caps.testFlag(QNetworkConfigurationManager::DataStatistics))
-            qWarning() << "DataStatistics";
-    if (caps.testFlag(QNetworkConfigurationManager::NetworkSessionRequired))
-            qWarning() << "NetworkSessionRequired";
-    if (caps.testFlag(QNetworkConfigurationManager::CanStartAndStopInterfaces))
-            qWarning() << "CanStartAndStopInterfaces";
-}
+    QNetworkRequest request;
 
-void MainWindow::finished(QNetworkReply *reply)
-{
-    if (reply->error() == QNetworkReply::NoError)
-        qWarning() << Q_FUNC_INFO;//<< reply->readAll();
-    else
-        qWarning() << Q_FUNC_INFO << reply->errorString();
-}
+    QUrl url(URL);
+    url.setUserName(USER);
+    url.setPassword(PASS);
+    url.setPort(21);
 
-void MainWindow::opened()
-{
-    qWarning() << Q_FUNC_INFO;
-    QNetworkRequest request(QUrl("http://llornkcor.com"));
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath(), tr("Image Files (*.png *.jpg *.bmp)"));
 
-    accessMan->get(request);
-}
+    if (!filename.isEmpty()) {
+        QFile file(filename);
+        remoteFile = QFileInfo(file).fileName();
+        qDebug() << Q_FUNC_INFO << remoteFile;
 
-void MainWindow::updateCompleted()
-{
-    qWarning() << "isOnline?" << configMan->isOnline();
-    qWarning() << "network accessible" << accessMan->networkAccessible();
+        url.setPath(remoteFile);
+        request.setUrl(url);
 
-    printCaps(configMan->capabilities());
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 
-    QNetworkConfiguration configuration = accessMan->configuration();
+            QByteArray fileBytes = file.readAll();
+            QNetworkReply *networkReply = manager->put(request, fileBytes);
 
-    qWarning() << configuration.name() << configuration.state();
-    qDebug() <<"activeConfiguration"<< accessMan->activeConfiguration().name();
-    qDebug() <<"defaultConfiguration"<< configMan->defaultConfiguration().name();
+            connect(networkReply, &QNetworkReply::downloadProgress,
+                    this, &MainWindow::onDownloadProgress);
+            connect(networkReply, &QNetworkReply::downloadProgress,
+                    this, &MainWindow::onUploadProgress);
 
-    QNetworkSession *session = new QNetworkSession(configuration, this);
+            connect(networkReply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
+                    [=](QNetworkReply::NetworkError code){
+                qDebug() << Q_FUNC_INFO << code << networkReply->errorString();
+            });
 
-    qWarning() << stateToString(session->state());
-    connect(session, &QNetworkSession::stateChanged, this, &MainWindow::stateChanged);
-
-    if (configuration.state().testFlag(QNetworkConfiguration::Active)) {
-        opened();
-    } else {
-        qWarning() << "opening";
-     //   session->open();
+            connect(networkReply, &QNetworkReply::finished,
+                    this, &MainWindow::requestFinished);
+        }
     }
+}
+
+void MainWindow::replyFinished(QNetworkReply *reply)
+{
+    if (reply->error())
+        qDebug() << Q_FUNC_INFO << reply->errorString();
+    else {
+        QList<QByteArray> headerList = reply->rawHeaderList();
+        QByteArray responsData = reply->readAll();
+    }
+}
+
+void MainWindow::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
+{
+    qDebug() << Q_FUNC_INFO << "bytesReceived" << bytesReceived<< "bytesTotal" << bytesTotal;
+}
+
+void MainWindow::networkReplyError(QNetworkReply::NetworkError code)
+{
+    qDebug() << Q_FUNC_INFO << code << code;
+}
+
+void MainWindow::requestFinished()
+{
+    qDebug() << Q_FUNC_INFO;
+}
+
+void MainWindow::onUploadProgress(qint64 bytesSent, qint64 bytesTotal)
+{
+    qDebug() << Q_FUNC_INFO << "bytesSent" << bytesSent<< "bytesTotal" << bytesTotal;
+}
+void MainWindow::qftpCommandFinished(int i, bool isError)
+{
+    if (isError)
+        qDebug() << Q_FUNC_INFO << i<< "Error" << isError << ftp->errorString();
+    else {
+        if (ftp->currentCommand() == QFtp::Login)
+            ftp->list();
+    }
+}
+
+void MainWindow::putFtp()
+{
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    QString filename = QFileDialog::getOpenFileName(this,
+                                                    tr("Open File"),
+                                                    QDir::homePath(),
+                                                    tr("Image Files (*.png *.jpg *.bmp)"));
+
+    if (!filename.isEmpty()) {
+        QFile file(filename);
+        remoteFile = QFileInfo(file).fileName();
+
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QByteArray fileBytes = file.readAll();
+            ftp->put(fileBytes, remoteFile);
+        }
+    }
+}
+
+void MainWindow::qftpDataTransferProgress(qint64 readBytes, qint64 totalBytes)
+{
+    qDebug() << Q_FUNC_INFO << "readBytes" << readBytes<< "totalBytes" << totalBytes;
+}
+
+void MainWindow::stateChanged(int i)
+{
+    qDebug() << Q_FUNC_INFO << i;
+    if (i == 4)
+        putFtp();
 }

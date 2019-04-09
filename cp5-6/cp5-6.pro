@@ -1,14 +1,14 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2019-04-09T08:03:33
+# Project created by QtCreator 2018-11-18T06:10:31
 #
 #-------------------------------------------------
 
-QT       += core gui network ftp
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = cp5-5
+TARGET = cp5-2
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -26,10 +26,12 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    mysslserver.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    mysslserver.h
 
 FORMS += \
         mainwindow.ui

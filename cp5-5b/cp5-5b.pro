@@ -1,14 +1,14 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2019-04-09T08:03:33
+# Project created by QtCreator 2019-04-09T10:56:39
 #
 #-------------------------------------------------
 
-QT       += core gui network ftp
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = cp5-5
+TARGET = cp5-5b
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
