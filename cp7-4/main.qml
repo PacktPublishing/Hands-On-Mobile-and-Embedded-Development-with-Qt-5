@@ -24,10 +24,10 @@ ApplicationWindow {
         currentIndex: swipeView.currentIndex
 
         TabButton {
-            text: qsTr("Page 1")
+            text: qsTr("WebSocket Server")
         }
         TabButton {
-            text: qsTr("Page 2")
+            text: qsTr("WebSocket Client")
         }
     }
 }
