@@ -38,7 +38,7 @@ void MainWindow::createDatabase()
 
     if (databaseType == "QMYSQL") {
         db.setHostName("10.0.0.243");
-        db.setUserName("lpotter");
+        db.setUserName("username");
         db.setPassword("password");
     }
 
