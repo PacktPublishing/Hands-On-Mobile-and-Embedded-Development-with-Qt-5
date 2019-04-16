@@ -7,7 +7,7 @@ Window  {
     height: 500
 
     Rectangle {
-
+        anchors.fill: parent
         Text {
             id: textLabel
             text: "Hands-On Mobile and Embedded"
