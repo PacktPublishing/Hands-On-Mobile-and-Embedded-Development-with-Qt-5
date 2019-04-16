@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>icons8-sedan-64.png</file>
+    </qresource>
+</RCC>
