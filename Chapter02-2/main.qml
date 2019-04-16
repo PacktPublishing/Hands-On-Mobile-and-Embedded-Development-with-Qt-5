@@ -1,10 +1,16 @@
-import QtQuick 2.9
-//import QtQuick.Window 2.2
+import QtQuick 2.11
+import QtQuick.Window 2.11
 
-Rectangle {
-    width: 500
-    height: 500
-    Column {
+Window {
+    visible: true
+    width: 640
+    height: 480
+    title: qsTr("Hello World")
+    Flow {
+        anchors.fill: parent
+        anchors.margins: 4
+        spacing: 10
+
         Rectangle {
             width: 35
             height: 35
