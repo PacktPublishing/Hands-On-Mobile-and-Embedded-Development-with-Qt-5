@@ -1,5 +1,5 @@
 import QtQuick 2.12
-import QtQuick.Window 2.12a
+import QtQuick.Window 2.12
 import QtDataVisualization 1.2
 
 Window {
