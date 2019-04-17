@@ -15,7 +15,7 @@ Window {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
 
-        ConicalGradient {
+        RadialGradient {
             anchors.fill: parent
             gradient: Gradient {
                 GradientStop { position: 0.0; color: "red" }
