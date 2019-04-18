@@ -1,6 +1,6 @@
-import QtQuick 2.11
-import QtQuick.Window 2.11
-import QtMultimedia 5.11
+import QtQuick 2.12
+import QtQuick.Window 2.12
+import QtMultimedia 5.12
 
 Window {
     visible: true
