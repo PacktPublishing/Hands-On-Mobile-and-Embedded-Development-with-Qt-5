@@ -13,7 +13,7 @@ Window {
               TouchPoint { id: finger2 },
               TouchPoint { id: finger3 },
               TouchPoint { id: finger4 },
-              TouchPoint { id: finger5 },
+              TouchPoint { id: finger5 }
           ]
       }
 
