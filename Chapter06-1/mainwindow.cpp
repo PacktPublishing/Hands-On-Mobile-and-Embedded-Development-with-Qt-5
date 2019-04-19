@@ -9,12 +9,42 @@
 #include <QtBluetooth/QLowEnergyDescriptorData>
 #include <QtBluetooth/QLowEnergyService>
 #include <QtBluetooth/QLowEnergyServiceData>
+#include <QtCore/qloggingcategory.h>
+#include <QBluetoothLocalDevice>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    QBluetoothLocalDevice *localDevice = new QBluetoothLocalDevice(this);
+
+    if (!localDevice->isValid()) {
+        ui->textEdit->insertPlainText("No Bluetooth adapter found\n");
+        return;
+    }
+
+    ui->textEdit->insertPlainText("Bluetooth adapter:\n    " + localDevice->name() +" "+ localDevice->address().toString() +"\n");
+
+    QString hostModeString;
+    switch (localDevice->hostMode()) {
+    case QBluetoothLocalDevice::HostPoweredOff:
+        hostModeString = "HostPoweredOff";
+        break;
+    case QBluetoothLocalDevice::HostConnectable:
+        hostModeString = "HostConnectable";
+        break;
+    case   QBluetoothLocalDevice::HostDiscoverable:
+        hostModeString = "HostDiscoverable";
+        break;
+    case QBluetoothLocalDevice::HostDiscoverableLimitedInquiry:
+        hostModeString = "HostDiscoverableLimitedInquiry";
+        break;
+    }
+    ui->textEdit->insertPlainText(hostModeString +"\n");
+    if (localDevice->hostMode() != QBluetoothLocalDevice::HostPoweredOff)
+        setupBle();
 }
 
 MainWindow::~MainWindow()
@@ -24,13 +54,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupBle()
 {
-    controller = QLowEnergyController::createPeripheral(this);
-    connect(controller, QOverload<QLowEnergyController::Error>::of(&QLowEnergyController::error), this, &MainWindow::controllerError);
-    connect(controller, &QLowEnergyController::stateChanged, this, &MainWindow::controllerStateChanged);
-
     QLowEnergyAdvertisingData leAdd;
     leAdd.setDiscoverability(QLowEnergyAdvertisingData::DiscoverabilityGeneral);
     leAdd.setLocalName("SensorServer");
+    leAdd.setIncludePowerLevel(true);
 
     QList<QBluetoothUuid> servicesList;
     servicesList.append(QBluetoothUuid::EnvironmentalSensing);
@@ -47,6 +74,11 @@ void MainWindow::setupBle()
     serviceData.setUuid(QBluetoothUuid::Temperature);
     serviceData.setType(QLowEnergyServiceData::ServiceTypePrimary);
     serviceData.addCharacteristic(chData);
+
+    controller = QLowEnergyController::createPeripheral();
+    connect(controller, QOverload<QLowEnergyController::Error>::of(&QLowEnergyController::error), this, &MainWindow::controllerError);
+    connect(controller, &QLowEnergyController::stateChanged, this, &MainWindow::controllerStateChanged);
+
     QLowEnergyService *service = controller->addService(serviceData);
     QLowEnergyCharacteristic characteristic = service->characteristic(QBluetoothUuid::TemperatureMeasurement);
 
@@ -55,6 +87,7 @@ void MainWindow::setupBle()
     QByteArray currentTempValue;
     currentTempValue.append(char(0));
     currentTempValue.append(char(temperature));
+
     service->writeCharacteristic(characteristic, currentTempValue);
 
     controller->startAdvertising(QLowEnergyAdvertisingParameters(), leAdd, leAdd);
@@ -64,44 +97,70 @@ void MainWindow::setupBle()
 void MainWindow::controllerError(QLowEnergyController::Error newError)
 {
     qWarning() << Q_FUNC_INFO << newError;
-    ui->textEdit->insertPlainText(errorToString(newError));
+    ui->textEdit->insertPlainText(errorToString(newError) +"\n");
 }
 
 void MainWindow::controllerStateChanged(QLowEnergyController::ControllerState newState)
 {
     qWarning() << Q_FUNC_INFO << newState;
+    QString stateString;
+    switch (newState) {
+    case  QLowEnergyController::UnconnectedState:
+        stateString =  "UnconnectedState";
+        break;
+    case QLowEnergyController::ConnectingState:
+        stateString = "ConnectingState";
+        break;
+    case QLowEnergyController::ConnectedState:
+        stateString = "ConnectedState";
+        break;
+    case QLowEnergyController::DiscoveringState:
+        stateString = "DiscoveringState";
+        break;
+    case QLowEnergyController::DiscoveredState:
+        stateString = "DiscoveredState";
+        break;
+    case QLowEnergyController::ClosingState:
+        stateString = "ClosingState";
+        break;
+    case QLowEnergyController::AdvertisingState:
+        stateString = "AdvertisingState";
+        break;
+
+    }
+    ui->textEdit->insertPlainText(stateString +"\n");
 }
 
 QString MainWindow::errorToString(QLowEnergyController::Error errorValue)
 {
     QString ret(QStringLiteral("No error"));
-    switch(errorValue) {
-    case QLowEnergyController::NoError:
-        break;
-    case QLowEnergyController::UnknownError:
+            switch(errorValue) {
+        case QLowEnergyController::NoError:
+            break;
+        case QLowEnergyController::UnknownError:
         ret = "UnknownError";
         break;
 
-    case QLowEnergyController::UnknownRemoteDeviceError:
+        case QLowEnergyController::UnknownRemoteDeviceError:
         ret = "UnknownRemoteDeviceError";
         break;
 
-    case QLowEnergyController::NetworkError:
+        case QLowEnergyController::NetworkError:
         ret = "NetworkError";
         break;
 
-    case QLowEnergyController::InvalidBluetoothAdapterError:
+        case QLowEnergyController::InvalidBluetoothAdapterError:
         ret = "InvalidBluetoothAdapterError";
         break;
-    case QLowEnergyController::ConnectionError:
+        case QLowEnergyController::ConnectionError:
         ret = "ConnectionError";
         break;
-    case QLowEnergyController::AdvertisingError:
+        case QLowEnergyController::AdvertisingError:
         ret = "AdvertisingError";
         break;
-    case QLowEnergyController::RemoteHostClosedError:
+        case QLowEnergyController::RemoteHostClosedError:
         ret = "RemoteHostClosedError";
         break;
     };
-    return ret;
-}
+        return ret;
+    }

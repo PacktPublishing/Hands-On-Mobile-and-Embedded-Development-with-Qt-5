@@ -10,7 +10,6 @@ Window {
     height: 480
     title: qsTr("Hello Bluetooth LE")
 
-
     BluetoothDiscoveryModel {
         id: discoveryModel
         discoveryMode: BluetoothDiscoveryModel.DeviceDiscovery
@@ -21,6 +20,9 @@ Window {
                 discoveryModel.remoteAddress = device
                 discoveryModel.running = true
             }
+        }
+        onErrorChanged: {
+            textArea.text = discoveryModel.error
         }
     }
 
@@ -45,6 +47,11 @@ Window {
                 }
             }
         }
+    }
+    TextArea {
+        id: textArea
+        anchors.bottom: mainList.bottom
+        text: discoveryModel.error == BluetoothDiscoveryModel.NoError ? "" : "No bluetooth found"
     }
 
     BusyIndicator {
