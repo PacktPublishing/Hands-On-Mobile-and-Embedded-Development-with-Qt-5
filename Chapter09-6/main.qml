@@ -11,7 +11,7 @@ Window {
     MediaPlayer {
         id: player
         autoPlay: false
-        source: "qrc:hellowindow.mp2"
+        source: "qrc:hellowindow.m4v"
         onStatusChanged: {
             console.log("status: " + status)
         }
