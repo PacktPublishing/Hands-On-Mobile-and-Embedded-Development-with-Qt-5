@@ -22,7 +22,7 @@ SensorServer::~SensorServer()
 
 void SensorServer::initWebsocket()
 {
-    mDevice.setUrl("broker.hivemq.com:8000");
+    mDevice.setUrl(QUrl("broker.hivemq.com:8000"));
     mDevice.setProtocol("mqttv3.1");
 
     connect(&mDevice, &WebSocketIODevice::socketConnected, this, &SensorServer::websocketConnected);
@@ -32,7 +32,7 @@ void SensorServer::websocketConnected()
 {
     mqttClient = new QMqttClient(this);
     mqttClient->setProtocolVersion(QMqttClient::MQTT_3_1);
-    mqttClient->setTransport(&m_device, QMqttClient::IODevice);
+    mqttClient->setTransport(&mDevice, QMqttClient::IODevice);
 
     connect(mqttClient, &QMqttClient::errorChanged,
             this, &SensorServer::errorChanged);
@@ -122,9 +122,9 @@ void SensorServer::errorChanged(QMqttClient::
 
     case QMqttClient::UnknownError:
         break;
-//    case QMqttClient::Mqtt5SpecificError:
-//        qDebug() << "Error";
-//    break;
+    case QMqttClient::Mqtt5SpecificError:
+        qDebug() << "Error";
+    break;
     };
 }
 

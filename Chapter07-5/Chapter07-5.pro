@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui mqtt sensors websockets
+QT       += core gui mqtt 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
