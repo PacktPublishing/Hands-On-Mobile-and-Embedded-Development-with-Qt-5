@@ -32,22 +32,22 @@ MainWindow::~MainWindow()
 
 void MainWindow::loadFile(const QString &file)
 {
-//    connect(mediaPlayer, SIGNAL(metaDataChanged(QString,QVariant)),
-//            this, SLOT(metaDataChanged(QString,QVariant)));
+    connect(mediaPlayer, SIGNAL(metaDataChanged(QString,QVariant)),
+            this, SLOT(metaDataChanged(QString,QVariant)));
 
-//     mediaPlayer->setMedia(QUrl::fromLocalFile(file));
+     mediaPlayer->setMedia(QUrl::fromLocalFile(file));
 
-//     QObject::connect(mediaPlayer, &QMediaPlayer::metaDataAvailableChanged, [&](bool available){
-//         if (available) {
-//             qDebug() << "AudioCodec" << mediaPlayer->metaData("AudioCodec").toString();
-//             qDebug() << "AudioBitRate" <<  mediaPlayer->metaData("AudioBitRate").toInt();
-//             qDebug() << "ChannelCount" <<  mediaPlayer->metaData("ChannelCount").toInt();
-//             qDebug() << "SampleRate" <<  mediaPlayer->metaData("SampleRate").toInt();
-//             qDebug() << "Resolution" <<  mediaPlayer->metaData("Resolution").toSize();
-//             qDebug() << "contai ner-format" <<  mediaPlayer->metaData("container-format").toSize();
+     QObject::connect(mediaPlayer, &QMediaPlayer::metaDataAvailableChanged, [&](bool available){
+         if (available) {
+             qDebug() << "AudioCodec" << mediaPlayer->metaData("AudioCodec").toString();
+             qDebug() << "AudioBitRate" <<  mediaPlayer->metaData("AudioBitRate").toInt();
+             qDebug() << "ChannelCount" <<  mediaPlayer->metaData("ChannelCount").toInt();
+             qDebug() << "SampleRate" <<  mediaPlayer->metaData("SampleRate").toInt();
+             qDebug() << "Resolution" <<  mediaPlayer->metaData("Resolution").toSize();
+             qDebug() << "container-format" <<  mediaPlayer->metaData("container-format").toSize();
 
-//             }
-//         });
+             }
+         });
 
     QFile *sourceFile = new QFile();
     sourceFile->setFileName(file);
@@ -71,6 +71,7 @@ void MainWindow::loadFile(const QString &file)
     audio = new QAudioOutput(deviceInfo, format, this);
     connect(audio, &QAudioOutput::stateChanged, [=] (QAudio::State state) {
         qDebug() << Q_FUNC_INFO << "state" << state;
+        ui->textEdit->insertPlainText(stateToString(state) + "\n");
         if (state == QAudio::StoppedState) {
             if (audio->error() != QAudio::NoError) {
                 qDebug() << Q_FUNC_INFO << audio->error();
@@ -81,9 +82,32 @@ void MainWindow::loadFile(const QString &file)
     audio->start(sourceFile);
 }
 
-
 void MainWindow::metaDataChanged(QString key, QVariant data)
 {
     qDebug() << "metadata changed: " + key +" "+ data.toString();
+    ui->textEdit->insertPlainText(key +" "+data.toString() +"\n");
+}
+
+QString MainWindow::stateToString(QAudio::State state)
+{
+    QString stateString;
+    switch (state) {
+    case QAudio::SuspendedState:
+        stateString = "QAudio::SuspendedState";
+        break;
+    case QAudio::ActiveState:
+        stateString = "QAudio::ActiveState";
+        break;
+    case QAudio::StoppedState:
+        stateString = "QAudio::StoppedState";
+        break;
+    case QAudio::IdleState:
+        stateString = "QAudio::IdleState";
+        break;
+    case QAudio::InterruptedState:
+        stateString = "QAudio::InterruptedState";
+        break;
+    };
+    return stateString;
 }
 
