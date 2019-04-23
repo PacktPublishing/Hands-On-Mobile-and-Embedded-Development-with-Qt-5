@@ -49,9 +49,9 @@ void MainWindow::loadFile(const QString &file)
 //             }
 //         });
 
-    QFile sourceFile;
-    sourceFile.setFileName(file);
-    sourceFile.open(QIODevice::ReadOnly);
+    QFile *sourceFile = new QFile();
+    sourceFile->setFileName(file);
+    sourceFile->open(QIODevice::ReadOnly);
 
     QAudioFormat format;
     format.setSampleRate(44100);
@@ -59,26 +59,26 @@ void MainWindow::loadFile(const QString &file)
     format.setSampleSize(16);
     format.setCodec("audio/pcm");
     format.setByteOrder(QAudioFormat::LittleEndian);
-    format.setSampleType(QAudioFormat::UnSignedInt);
+    format.setSampleType(QAudioFormat::SignedInt);
     QAudioOutput *audio;
 
-    for (const QAudioDeviceInfo &deviceInfo : QAudioDeviceInfo::availableDevices(QAudio::AudioOutput)) {
-        if (!deviceInfo.isFormatSupported(format)) {
-            qWarning() << "Raw audio format not supported by backend, cannot play audio.";
-        } else {
-            audio = new QAudioOutput(deviceInfo, format, this);
-            connect(audio, &QAudioOutput::stateChanged, [=] (QAudio::State state) {
-                qDebug() << Q_FUNC_INFO << "state" << state;
-                if (state == QAudio::StoppedState) {
-                    if (audio->error() != QAudio::NoError) {
-                        qDebug() << Q_FUNC_INFO << audio->error();
-                    }
-                }
-            });
-        }
-    }
+    QAudioDeviceInfo deviceInfo = QAudioDeviceInfo::defaultOutputDevice();
 
-    audio->start(&sourceFile);
+    if (!deviceInfo.isFormatSupported(format)) {
+        format = deviceInfo.nearestFormat(format);
+        qWarning() << "Audio format not supported by backend, cannot play audio.";
+    }
+    audio = new QAudioOutput(deviceInfo, format, this);
+    connect(audio, &QAudioOutput::stateChanged, [=] (QAudio::State state) {
+        qDebug() << Q_FUNC_INFO << "state" << state;
+        if (state == QAudio::StoppedState) {
+            if (audio->error() != QAudio::NoError) {
+                qDebug() << Q_FUNC_INFO << audio->error();
+            }
+        }
+    });
+    audio->setVolume(.50);
+    audio->start(sourceFile);
 }
 
 
