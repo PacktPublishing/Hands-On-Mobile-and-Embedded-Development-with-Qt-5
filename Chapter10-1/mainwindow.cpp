@@ -26,15 +26,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::createDatabase()
 {
-    QString dbname = "MAEPQTdb";
-    // QString databaseType = "QSQLITE";
-    QString databaseType = "QMYSQL";
+    dbname = "MAEPQTdb";
+    QString databaseType = "QSQLITE";
+//    QString databaseType = "QMYSQL";
 
     QSqlDatabase db = QSqlDatabase::addDatabase(databaseType);
     if (databaseType == "QSQLITE") {
-        db.setDatabaseName("mobileembedded.sql");
+        dbname = "mobileembedded.sql";
+        db.setDatabaseName(dbname);
     }
-    qDebug() << Q_FUNC_INFO << __LINE__;
 
     if (databaseType == "QMYSQL") {
         db.setHostName("10.0.0.243");
@@ -63,12 +63,11 @@ void MainWindow::createDatabase()
 
 void MainWindow::createTables()
 {
-    qDebug() << Q_FUNC_INFO << __LINE__;
-    QSqlDatabase db = QSqlDatabase::database("MAEPQTdb");
+    QSqlDatabase db = QSqlDatabase::database(dbname);
     QSqlQuery q("", db);
-    if (!q.exec("drop table Mobile;"))
+    if (!q.exec("drop table if exists Mobile;"))
         qDebug() << q.lastError();
-    if (!q.exec("drop table Embedded;"))
+    if (!q.exec("drop table  if exists Embedded;"))
         qDebug() << q.lastError();
     if (!q.exec("create table Mobile (id int primary key, Device varchar(20), Model varchar(20), Version varchar(20));"))
         qDebug() << q.lastError();
