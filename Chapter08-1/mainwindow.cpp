@@ -8,19 +8,23 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     QStringList geoSources =  QGeoSatelliteInfoSource::availableSources();
-    source = QGeoSatelliteInfoSource::createSource(geoSources.at(0),    this);
+    if (!geoSources.isEmpty()) {
 
-    if (source) {
-        source->setUpdateInterval(3000);
-        connect(source, &QGeoSatelliteInfoSource::satellitesInViewUpdated,
-                this, &MainWindow::satellitesInViewUpdated);
-        connect(source, &QGeoSatelliteInfoSource::satellitesInUseUpdated,
-                this, &MainWindow::satellitesInUseUpdated);
-        connect(source, QOverload<QGeoSatelliteInfoSource::Error>::of(&QGeoSatelliteInfoSource::error),
-             this, &MainWindow::error);
+        source = QGeoSatelliteInfoSource::createSource(geoSources.at(0), this);
 
+        if (source) {
+            source->setUpdateInterval(3000);
+            connect(source, &QGeoSatelliteInfoSource::satellitesInViewUpdated,
+                    this, &MainWindow::satellitesInViewUpdated);
+            connect(source, &QGeoSatelliteInfoSource::satellitesInUseUpdated,
+                    this, &MainWindow::satellitesInUseUpdated);
+            connect(source, QOverload<QGeoSatelliteInfoSource::Error>::of(&QGeoSatelliteInfoSource::error),
+                    this, &MainWindow::error);
+        }
+        source->startUpdates();
+    } else {
+        ui->textEdit->insertPlainText("No QGeoSatelliteInfoSource available");
     }
-      source->startUpdates();
 }
 
 MainWindow::~MainWindow()
@@ -28,7 +32,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::error(QGeoSatelliteInfoSource::Error error)
+void MainWindow::error(QGeoSatelliteInfoSource::Error /*error*/)
 {
     ui->textEdit->insertPlainText("Error\n");
 }
@@ -36,31 +40,33 @@ void MainWindow::error(QGeoSatelliteInfoSource::Error error)
 void MainWindow::satellitesInViewUpdated(const QList<QGeoSatelliteInfo> &infos)
 {
     QString msg;
-    if (infos.count() > 0)
+    if (infos.count() > 0) {
         msg.append("Number of satellites in view: " + QString::number(infos.count()) + "\n");
 
-    foreach (const QGeoSatelliteInfo &info, infos) {
+        foreach (const QGeoSatelliteInfo &info, infos) {
             msg.append("    satelliteIdentifier"  + QString::number(info.satelliteIdentifier())
-                   + " signalStrength " + QString::number(info.signalStrength())
-                   + (info.hasAttribute(QGeoSatelliteInfo::Elevation) ? " Elevation " + QString::number(info.attribute(QGeoSatelliteInfo::Elevation)) : "")
-                   + (info.hasAttribute(QGeoSatelliteInfo::Elevation) ? " Azimuth " + QString::number(info.attribute(QGeoSatelliteInfo::Azimuth)) : "") + "\n");
+                       + " signalStrength " + QString::number(info.signalStrength())
+                       + (info.hasAttribute(QGeoSatelliteInfo::Elevation) ? " Elevation " + QString::number(info.attribute(QGeoSatelliteInfo::Elevation)) : "")
+                       + (info.hasAttribute(QGeoSatelliteInfo::Elevation) ? " Azimuth " + QString::number(info.attribute(QGeoSatelliteInfo::Azimuth)) : "") + "\n");
+        }
+        ui->textEdit->insertPlainText(msg);
     }
-    ui->textEdit->insertPlainText(msg);
 }
 
 void MainWindow::satellitesInUseUpdated(const QList<QGeoSatelliteInfo> &infos)
 {
     QString msg;
-    if (infos.count() > 0)
+    if (infos.count() > 0) {
         msg.append("Number of satellites in view: " + QString::number(infos.count()) + "\n");
 
-    foreach (const QGeoSatelliteInfo &info, infos) {
+        foreach (const QGeoSatelliteInfo &info, infos) {
 
-        msg.append("    satelliteIdentifier"  + QString::number(info.satelliteIdentifier())
-               + " signalStrength " + QString::number(info.signalStrength())
-               + (info.hasAttribute(QGeoSatelliteInfo::Elevation) ? " Elevation " + QString::number(info.attribute(QGeoSatelliteInfo::Elevation)) : "")
-               + (info.hasAttribute(QGeoSatelliteInfo::Elevation) ? " Azimuth " + QString::number(info.attribute(QGeoSatelliteInfo::Azimuth)) : "") + "\n");
+            msg.append("    satelliteIdentifier"  + QString::number(info.satelliteIdentifier())
+                       + " signalStrength " + QString::number(info.signalStrength())
+                       + (info.hasAttribute(QGeoSatelliteInfo::Elevation) ? " Elevation " + QString::number(info.attribute(QGeoSatelliteInfo::Elevation)) : "")
+                       + (info.hasAttribute(QGeoSatelliteInfo::Elevation) ? " Azimuth " + QString::number(info.attribute(QGeoSatelliteInfo::Azimuth)) : "") + "\n");
+        }
+        ui->textEdit->insertPlainText(msg);
+        ui->textEdit->ensureCursorVisible();
     }
-    ui->textEdit->insertPlainText(msg);
-    ui->textEdit->ensureCursorVisible();
 }

@@ -18,13 +18,14 @@ Window {
         zoomLevel: 12
         plugin: Plugin {
             id: mapPlugin
-            name: "here"
+            name: "osm"
             PluginParameter {
 //                name: 'osm.mapping.highdpi_tiles'
                 name: 'here.mapping.highdpi_tiles'
                 value: false
             }
             PluginParameter {
+                id: appId
                 name: 'here.app_id'
                 value: 'your_here_app_id_here'
             }
@@ -32,8 +33,6 @@ Window {
                 name: 'here.token'
                 value: 'your_here_token_here'
             }
-
-
         }
 
         MapCircle {
@@ -93,13 +92,17 @@ Window {
         }
 
         Component.onCompleted: {
-            routeQuery.clearWaypoints();
-            routeQuery.addWaypoint(startCoordinate)
-            routeQuery.addWaypoint(endCoordinate)
-            routeQuery.travelModes = RouteQuery.CarTravel
-            routeQuery.routeOptimizations = RouteQuery.FastestRoute
+            if (appId.name === 'here.app_id') {
+                console.log("You need to set HERE app id and HERE token")
+            } else {
+                routeQuery.clearWaypoints();
+                routeQuery.addWaypoint(startCoordinate)
+                routeQuery.addWaypoint(endCoordinate)
+                routeQuery.travelModes = RouteQuery.CarTravel
+                routeQuery.routeOptimizations = RouteQuery.FastestRoute
 
-            routeModel.update();
+                routeModel.update();
+            }
         }
     }
 
@@ -107,7 +110,13 @@ Window {
         id: searchModel
         plugin: mapPlugin
         searchTerm: "coffee"
-        searchArea: QtPositioning.path(map.routeModel.routeDelegate.route.path)
-        Component.onCompleted: update()
+        searchArea: routeDelegate.route ? QtPositioning.path(map.routeModel.routeDelegate.route.path) : ''
+        Component.onCompleted: {
+            if (appId.name === 'here.app_id') {
+                console.log("You need to set HERE app id and HERE token")
+            } else {
+                update()
+            }
+        }
     }
 }
