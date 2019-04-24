@@ -25,6 +25,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QString dbname;
 };
 
 #endif // MAINWINDOW_H
