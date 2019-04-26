@@ -30,7 +30,8 @@ private slots:
     void onUploadProgress(qint64 bytesSent, qint64 bytesTotal);
 
     void qftpDataTransferProgress(qint64,qint64);
-   void stateChanged(int);
+    void stateChanged(int);
+    void qftpCommandFinished(int,bool);
 
 private:
     void putFtp();
