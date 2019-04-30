@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MyRoundButton.qml</file>
+        <file>thunder.wav</file>
+    </qresource>
+</RCC>
