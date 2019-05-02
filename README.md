@@ -58,24 +58,18 @@ With the following software and hardware list you can run all code files present
 | 15        | Boot 2 Qt, Yocto                   |  Linux  |
 
 
-We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](Graphics Bundle Link).
+We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](https://www.packtpub.com/sites/default/files/downloads/9781789614817_ColorImages.pdf).
 
 
 ### Related products <Other books you may enjoy>
-* Linux: Powerful Server Administration [[Packt]](https://www.packtpub.com/networking-and-servers/linux-powerful-server-administration?utm_source=github&utm_medium=repository&utm_campaign=9781788293778) [[Amazon]](https://www.amazon.com/dp/1788293770)
+* Mastering Qt 5 [[Packt]](https://prod.packtpub.com/in/application-development/mastering-qt-5?utm_source=github&utm_medium=repository&utm_campaign=9781786467126) [[Amazon]](https://www.amazon.com/dp/1786467127)
 
-* Linux Device Drivers Development [[Packt]](https://www.packtpub.com/networking-and-servers/linux-device-drivers-development?utm_source=github&utm_medium=repository&utm_campaign=9781785280009) [[Amazon]](https://www.amazon.com/dp/1788293770)
+* Qt 5 Projects [[Packt]](https://prod.packtpub.com/in/application-development/qt-5-projects?utm_source=github&utm_medium=repository&utm_campaign=9781788293884) [[Amazon]](https://www.amazon.com/dp/1788293886)
 
 ## Get to Know the Author
 **Lorn Potter**
 is a software developer, specializing in Qt and QML on mobile and embedded devices with his company, llornkcor technologies. He has worked for Trolltech, Nokia, Canonical, and was a freelance contractor for Jolla, Intopalo, and the Qt Company. He is the official maintainer of Qt Sensors, for which he developed the QSensorGestures API. He maintains the unsupported QtSystemInfo for the open source Qt Project and also works on Qt Bearer Management and Qt for WebAssembly. He has written blogs and articles for the Linux Journal. He started his career in tech as Trolltech's Qtopia Community Liaison. He currently resides in Australia and spends his spare time recording electronic psybient music for the project Brog on his website.
 
-
-
-
-## Other books by the authors
-* [Mastering Linux Network Administration](https://www.packtpub.com/networking-and-servers/mastering-linux-network-administration?utm_source=github&utm_medium=repository&utm_campaign=9781784399597)
-* [Linux Mint Essentials](https://www.packtpub.com/networking-and-servers/linux-mint-essentials?utm_source=github&utm_medium=repository&utm_campaign=9781782168157)
 
 ### Suggestions and Feedback
 [Click here](https://docs.google.com/forms/d/e/1FAIpQLSdy7dATC6QmEL81FIUuymZ0Wy9vH1jHkvpY57OiMeKGqib_Ow/viewform) if you have any feedback or suggestions.
