@@ -1,6 +1,5 @@
 # Hands-On-Mobile-and-Embedded-Development-with-Qt-5
 Hands-On Mobile and Embedded Development with Qt 5, published by Packt
-# Book Name
 
 <a href="Packt UTM URL of the Book"><img src="Cover Image URL of the Book" alt="Book Name" height="256px" align="right"></a>
 
