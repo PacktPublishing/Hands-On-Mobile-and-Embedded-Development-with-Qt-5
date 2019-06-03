@@ -1,9 +1,9 @@
 # Hands-On-Mobile-and-Embedded-Development-with-Qt-5
 Hands-On Mobile and Embedded Development with Qt 5, published by Packt
 
-<a href="Packt UTM URL of the Book"><img src="Cover Image URL of the Book" alt="Book Name" height="256px" align="right"></a>
+<a href="https://www.packtpub.com/application-development/hands-mobile-and-embedded-development-qt-5?utm_source=github&utm_campaign=9781789614817"><img src="https://www.packtpub.com/media/catalog/product/cache/e4d64343b1bc593f1c5348fe05efa4a6/b/1/b12076_cover.png" alt="Hands-On Mobile and Embedded Development with Qt 5" height="256px" align="right"></a>
 
-This is the code repository for [Hands-On Mobile and Embedded Development with Qt 5](https://www.packtpub.com/application-development/hands-mobile-and-embedded-development-qt-5)</a>, published by Packt.
+This is the code repository for [Hands-On Mobile and Embedded Development with Qt 5](https://www.packtpub.com/application-development/hands-mobile-and-embedded-development-qt-5?utm_source=github&utm_campaign=9781789614817)</a>, published by Packt.
 
 **Book Description**
 
