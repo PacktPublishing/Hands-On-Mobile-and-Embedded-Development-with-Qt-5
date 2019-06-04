@@ -52,9 +52,9 @@ With the following software and hardware list you can run all code files present
 | 9        | Qt, QtMultimedia.                   | Windows, Mac OS X, and Linux (Any) |
 | 10       | Qt, sqlite, mysql.                  | Windows, Mac OS X, and Linux (Any) |
 | 11       | Qt, QtPurchasing                    | Windows, Mac OS X, and Linux (Any) |
-| 12       | Qt, Boot 2 Qt, Yocto, Buildroot,
-Crosstool-NG, Xcode, Android Studio,
-Android Studio                       | Windows, Mac OS X, and Linux (Any) |
+| 12       | Qt, Boot 2 Qt, Yocto, Buildroot,    |Windows, Mac OS X, and Linux (Any)  |
+|          |Crosstool-NG, Xcode, Android Studio, |                                    |
+|          |Android Studio                       |                            |                                    |
 | 13       | Qt, Sailfish OS SDK, UBPorts SDK    | Windows, Mac OS X, and Linux (Any) |
 | 14       | Qt 5.13, Emcripten, web browser     | Windows, Mac OS X, and Linux (Any) |
 | 15       | Qt, Boot 2 Qt, Yocto.               | Windows, Mac OS X, and Linux (Any) |
