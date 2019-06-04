@@ -41,23 +41,23 @@ With the following software and hardware list you can run all code files present
 
 | Chapter  | Software required                   | OS required                        |
 | -------- | ------------------------------------| -----------------------------------|
-| 1        | Qt, Qt Creator                      | Windows, Mac OS X, and Linux (Any) |
-| 2        | Qt                                  | Windows, Mac OS X, and Linux (Any) |
+| 1        | Qt 5.12, Qt Creator                 | Windows, Mac OS X, and Linux (Any) |
+| 2        | Qt 5.12                             | Windows, Mac OS X, and Linux (Any) |
 | 3        | Qt, QtGraphicalEffects 5.12         | Windows, Mac OS X, and Linux (Any) |
-| 4        | Qt, Qt Virtual Keyboard             | Windows, Mac OS X, and Linux (Any) |
+| 4        | Qt, Qt Virtual Keyboard             | Windows, Mac OS X, Linux, iOS or Android |
 | 5        | Qt                                  | Windows, Mac OS X, and Linux (Any) |
-| 6        | Qt, QtConnectivity                  | Windows, Mac OS X, and Linux (Any) |
-| 7        | Qt, QtSensors, QtWebSockets, QtMqtt | Windows, Mac OS X, and Linux (Any) |
+| 6        | Qt, QtConnectivity                  |                -                   |
+| 7        | Qt, QtSensors, QtWebSockets, QtMqtt | Windows, Mac OS X, Linux, iOS or Android |
 | 8        | Qt, QtLocation                      | Windows, Mac OS X, and Linux (Any) |
 | 9        | Qt, QtMultimedia.                   | Windows, Mac OS X, and Linux (Any) |
 | 10       | Qt, sqlite, mysql.                  | Windows, Mac OS X, and Linux (Any) |
-| 11       | Qt, QtPurchasing                    | Windows, Mac OS X, and Linux (Any) |
+| 11       | Qt, QtPurchasing                    | iOS or Android                     |
 | 12       | Qt, Boot 2 Qt, Yocto, Buildroot,    |Windows, Mac OS X, and Linux (Any)  |
 |          |Crosstool-NG, Xcode, Android Studio, |                                    |
 |          |Android Studio                       |                                    |                            
 | 13       | Qt, Sailfish OS SDK, UBPorts SDK    | Windows, Mac OS X, and Linux (Any) |
-| 14       | Qt 5.13, Emcripten, web browser     | Windows, Mac OS X, and Linux (Any) |
-| 15       | Qt, Boot 2 Qt, Yocto.               | Windows, Mac OS X, and Linux (Any) |
+| 14       | Qt 5.13, Emcripten, web browser     | Linux  |
+| 15       | Qt, Boot 2 Qt, Yocto.               | Linux  |
 
 We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](https://www.packtpub.com/sites/default/files/downloads/9781789614817_ColorImages.pdf).
 
