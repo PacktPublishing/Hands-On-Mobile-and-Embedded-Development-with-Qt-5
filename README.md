@@ -27,14 +27,13 @@ All of the code is organized into folders. For example, Chapter02.
 
 The code will look like the following:
 ```
-if (test expression)
-{
-  Statement upon condition is true
+if (!QTouchScreen::devices().isEmpty()) {
+   qApp->setStyleSheet("QButton {padding: 10px;}");
 }
 ```
 
 **Following is what you need for this book:**
-Copy and paste the Audience section from the EPIC.
+The book is ideal for mobile developers, embedded systems engineers and enthusiasts who are interested in building cross-platform applications with Qt. Prior knowledge of C++ is required.
 
 With the following software and hardware list you can run all code files present in the book (Chapter 1-15).
 
@@ -42,22 +41,23 @@ With the following software and hardware list you can run all code files present
 
 | Chapter  | Software required                   | OS required                        |
 | -------- | ------------------------------------| -----------------------------------|
-| 1        | R version 3.3.0                     | Windows, Mac OS X, and Linux (Any) |
-| 2        | Rstudio Desktop 0.99.903            | Windows, Mac OS X, and Linux (Any) |
-| 3        | Rstudio Desktop 0.99.903            | Windows, Mac OS X, and Linux (Any) |
-| 4        | Rstudio Desktop 0.99.903            | Windows, Mac OS X, and Linux (Any) |
-| 5        | Rstudio Desktop 0.99.903            | Windows, Mac OS X, and Linux (Any) |
-| 6        | Rstudio Desktop 0.99.903            | Windows, Mac OS X, and Linux (Any) |
-| 7        | Rstudio Desktop 0.99.903            | Windows, Mac OS X, and Linux (Any) |
-| 8        | Rstudio Desktop 0.99.903            | Windows, Mac OS X, and Linux (Any) |
-| 9        | Rstudio Desktop 0.99.903            | Windows, Mac OS X, and Linux (Any) |
-| 10        | Rstudio Desktop 0.99.903            | Windows, Mac OS X, and Linux (Any) |
-| 11        | Rstudio Desktop 0.99.903            | Windows, Mac OS X, and Linux (Any) |
-| 12        | Rstudio Desktop 0.99.903            | Windows, Mac OS X, and Linux (Any) |
-| 13        | Rstudio Desktop 0.99.903            | Windows, Mac OS X, and Linux (Any) |
-| 14        | Rstudio Desktop 0.99.903            | Windows, Mac OS X, and Linux (Any) |
-| 15        | Rstudio Desktop 0.99.903            | Windows, Mac OS X, and Linux (Any) |
-
+| 1        | Qt, Qt Creator                      | Windows, Mac OS X, and Linux (Any) |
+| 2        | Qt                                  | Windows, Mac OS X, and Linux (Any) |
+| 3        | Qt, QtGraphicalEffects 5.12         | Windows, Mac OS X, and Linux (Any) |
+| 4        | Qt, Qt Virtual Keyboard             | Windows, Mac OS X, and Linux (Any) |
+| 5        | Qt                                  | Windows, Mac OS X, and Linux (Any) |
+| 6        | Qt, QtConnectivity                  | Windows, Mac OS X, and Linux (Any) |
+| 7        | Qt, QtSensors, QtWebSockets, QtMqtt | Windows, Mac OS X, and Linux (Any) |
+| 8        | Qt, QtLocation                      | Windows, Mac OS X, and Linux (Any) |
+| 9        | Qt, QtMultimedia.                   | Windows, Mac OS X, and Linux (Any) |
+| 10       | Qt, sqlite, mysql.                  | Windows, Mac OS X, and Linux (Any) |
+| 11       | Qt, QtPurchasing                    | Windows, Mac OS X, and Linux (Any) |
+| 12       | Qt, Boot 2 Qt, Yocto, Buildroot, 
+            Crosstool-NG, Xcode, Android Studio, 
+            Android Studio                       | Windows, Mac OS X, and Linux (Any) |
+| 13       | Qt, Sailfish OS SDK, UBPorts SDK    | Windows, Mac OS X, and Linux (Any) |
+| 14       | Qt 5.13, Emcripten, web browser     | Windows, Mac OS X, and Linux (Any) |
+| 15       | Qt, Boot 2 Qt, Yocto.               | Windows, Mac OS X, and Linux (Any) |
 
 We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](Graphics Bundle Link).
 
