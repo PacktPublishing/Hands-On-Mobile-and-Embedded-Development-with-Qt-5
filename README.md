@@ -61,6 +61,9 @@ With the following software and hardware list you can run all code files present
 
 We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](https://www.packtpub.com/sites/default/files/downloads/9781789614817_ColorImages.pdf).
 
+## Errata
+There is spacing issue in the code snippets present in the book. We advice you to use the code files present on GitHub or in the Code Bundle of the book.
+
 ### Related products <Other books you may enjoy>
 * Mastering Qt 5 [[Packt]](https://www.packtpub.com/application-development/mastering-qt-5?utm_source=github&utm_campaign=9781786467126) [[Amazon]](https://www.amazon.com/dp/1786467127)
 
