@@ -1,8 +1,3 @@
-## $5 Tech Unlocked 2021!
-[Buy and download this Book for only $5 on PacktPub.com](https://www.packtpub.com/product/hands-on-mobile-and-embedded-development-with-qt-5/9781789614817)
------
-*If you have read this book, please leave a review on [Amazon.com](https://www.amazon.com/gp/product/1789614813).     Potential readers can then use your unbiased opinion to help them make purchase decisions. Thank you. The $5 campaign         runs from __December 15th 2020__ to __January 13th 2021.__*
-
 # Hands On Mobile and Embedded Development with Qt 5
 
 <a href="https://www.packtpub.com/application-development/hands-mobile-and-embedded-development-qt-5?utm_source=github&utm_campaign=9781789614817"><img src="https://www.packtpub.com/media/catalog/product/cache/e4d64343b1bc593f1c5348fe05efa4a6/b/1/b12076_cover.png" height="256px" align="right"></a>
